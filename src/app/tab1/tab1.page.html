@@ -6,102 +6,47 @@
   </ion-toolbar>
 </ion-header>
 
+
+<!-- 
+  NewsDetails: [title, description, sourceName, url];
+ -->
 <ion-content>
   <ion-list id="newsFeed">
-    <ion-item>
-      <ion-card class="welcome-card">
+    <ion-item *ngFor="let eachNews of NewsDetails" color="mainheader">
+      <ion-card class="welcome-card" color="subheader" [href]="eachNews[3]">
         <ion-card-header>
-          <ion-card-title>Free stock trading could come to Square’s Cash app</ion-card-title>
+          <ion-card-title>{{ eachNews[0] }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <p>Square’s Cash App already lets you do more than just pay back your friends for lunch — the app started
-            letting
-            users buy and sell Bitcoin back in 2017.</p>
-            <span>-The Verge</span>
+          <p> {{ eachNews[1] }}. </p>
+          <span>- {{ eachNews[2] }}</span>
         </ion-card-content>
-        <!-- <ion-card-subtitle>The Verge</ion-card-subtitle> -->
-      </ion-card>
-    </ion-item>
-
-    <ion-item>
-      <ion-card class="welcome-card">
-        <ion-card-header>
-          <ion-card-title>Free stock trading could come to Square’s Cash app</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Square’s Cash App already lets you do more than just pay back your friends for lunch — the app started
-            letting
-            users buy and sell Bitcoin back in 2017.</p>
-        </ion-card-content>
-        <!-- <ion-card-subtitle>The Verge</ion-card-subtitle> -->
-      </ion-card>
-    </ion-item>
-
-    <ion-item>
-      <ion-card class="welcome-card">
-        <ion-card-header>
-          <ion-card-title>Free stock trading could come to Square’s Cash app</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Square’s Cash App already lets you do more than just pay back your friends for lunch — the app started
-            letting
-            users buy and sell Bitcoin back in 2017.</p>
-        </ion-card-content>
-        <!-- <ion-card-subtitle>The Verge</ion-card-subtitle> -->
-      </ion-card>
-    </ion-item>
-
-    <ion-item>
-      <ion-card class="welcome-card">
-        <ion-card-header>
-          <ion-card-title>Free stock trading could come to Square’s Cash app</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Square’s Cash App already lets you do more than just pay back your friends for lunch — the app started
-            letting
-            users buy and sell Bitcoin back in 2017.</p>
-        </ion-card-content>
-        <!-- <ion-card-subtitle>The Verge</ion-card-subtitle> -->
-      </ion-card>
-    </ion-item>
-
-    <ion-item>
-      <ion-card class="welcome-card">
-        <ion-card-header>
-          <ion-card-title>Free stock trading could come to Square’s Cash app</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Square’s Cash App already lets you do more than just pay back your friends for lunch — the app started
-            letting
-            users buy and sell Bitcoin back in 2017.</p>
-        </ion-card-content>
-        <!-- <ion-card-subtitle>The Verge</ion-card-subtitle> -->
       </ion-card>
     </ion-item>
   </ion-list>
 
 
-  <ion-list lines="none">
+  <ion-list lines="none"  color="mainheader" class="resources">
     <ion-list-header>
       <ion-label>Stock News Resources</ion-label>
     </ion-list-header>
-    <ion-item href="https://www.cnbc.com/stocks/">
+    <ion-item href="https://www.cnbc.com/stocks/" color="subheader">
       <ion-icon slot="start" color="medium" name="link"></ion-icon>
       <ion-label>CNBC</ion-label>
     </ion-item>
-    <ion-item href="https://www.marketwatch.com/">
+    <ion-item href="https://www.marketwatch.com/" color="subheader">
       <ion-icon slot="start" color="medium" name="link"></ion-icon>
       <ion-label>Market Watch</ion-label>
     </ion-item>
-    <ion-item href="https://www.nasdaq.com/news-and-insights">
+    <ion-item href="https://www.nasdaq.com/news-and-insights" color="subheader">
       <ion-icon slot="start" color="medium" name="link"></ion-icon>
       <ion-label>Nasdaq</ion-label>
     </ion-item>
-    <ion-item href="https://finance.yahoo.com/">
+    <ion-item href="https://finance.yahoo.com/" color="subheader">
       <ion-icon slot="start" color="medium" name="link"></ion-icon>
       <ion-label>Yahoo Finance</ion-label>
     </ion-item>
-    <ion-item href="https://www.wsj.com/news/markets/stocks">
+    <ion-item href="https://www.wsj.com/news/markets/stocks" color="subheader">
       <ion-icon slot="start" color="medium" name="link"></ion-icon>
       <ion-label>The Wall Street Journal</ion-label>
     </ion-item>

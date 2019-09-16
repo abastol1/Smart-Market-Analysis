@@ -24,3 +24,12 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+ion-content {
+    --background: #E8E8E8;
+}
+
+ion-app {
+    background-color: #E8E8E8;
+  }

@@ -8,9 +8,51 @@
   overflow: scroll;
 }
 
+p {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: small;
+}
+
 span{
   float: right;
   margin-bottom: 5px;
   font-style: italic;
   color: black;
+}
+
+ion-item, ion-list {
+  background-color: transparent;
+}
+
+.pull-right{
+  float: right;
+}
+
+ion-list {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 0px;
+}
+
+.inner-scroll .scroll-y {
+  background-color: transparent;
+}
+
+.pull-right{
+  float: right;
+}
+
+.inner-scroll .scroll-y {
+  background-color: transparent;
+}
+
+
+ion-item-header{
+  background: transparent;
+}
+
+.resources {
+  ion-item {
+    padding: 0% 5%;
+  }
 }

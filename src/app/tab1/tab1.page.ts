@@ -23,6 +23,8 @@ export class Tab1Page {
     });
   }
 
+  public NewsDetails = [];
+
   getNews(){
     const newsAPIKey = "36f2795f98ae409a811da0ed34415039";
     const query = "Stock";
@@ -31,17 +33,17 @@ export class Tab1Page {
     this.http.get(newsAPIUrl)
       .subscribe(
         (response) => {
-          let title = response['articles'][0]['title'];
-          let description = response['articles'][0]['description'];
-          let sourceName = response['articles'][0]['source']['name'];
-          let url = response['articles'][0]['url'];
-          console.log("Response is " , response);
+          for ( let i = 0; i < response['articles'].length; i++){
+            let title = response['articles'][i]['title'];
+            let description = response['articles'][i]['description'].split(".")[0];
+            let sourceName = response['articles'][i]['source']['name'];
+            let url = response['articles'][i]['url'];
 
-          console.log("Length of news: ", response['articles'].length)
-          console.log("Title: ", title);
-          console.log("description: ", description.split(".")[0]);
-          console.log("sourceName: ", sourceName);
-          console.log("url: ", url);
+            let news = [title, description, sourceName, url];
+            this.NewsDetails.push(news);
+
+          }
+          console.log("Main Array News Details: ", this.NewsDetails);
         },
         error => {
           alert("Calling NewsApi Failed");
