@@ -1,5 +1,7 @@
 {
   "name": "StockMarketAnalysis",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

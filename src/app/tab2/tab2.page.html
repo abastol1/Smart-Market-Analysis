@@ -1,9 +1,21 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="danger">
     <ion-title>
-      Tab Two
+      Companies
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+  <ion-card *ngFor="let name of names | keyvalue">
+    
+    <img [src]=name.value[1]/>
+    <ion-card-header>
+      <ion-card-subtitle> {{ name.value[0] }}</ion-card-subtitle>
+      <ion-card-title> {{ name.key }}</ion-card-title>
+    </ion-card-header>
+
+  </ion-card>
+
+</ion-content>

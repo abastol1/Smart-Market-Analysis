@@ -2,3 +2,15 @@
   max-height: 35vh;
   overflow: hidden;
 }
+
+#newsFeed {
+  height: 75%;
+  overflow: scroll;
+}
+
+span{
+  float: right;
+  margin-bottom: 5px;
+  font-style: italic;
+  color: black;
+}
