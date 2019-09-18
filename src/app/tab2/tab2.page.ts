@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { AnalysisPage } from './analysis/analysis.page'
 
 @Component({
   selector: 'app-tab2',
@@ -7,7 +9,9 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  constructor(
+    private modalController: ModalController
+  ) {}
 
   public names = {
     "Google" : ["Technology company", "https://seomofo.com/wp-content/uploads/2018/09/new-google-logo-knockoff1.png"],
@@ -22,5 +26,13 @@ export class Tab2Page {
     "Walmart": ["Retail company", "https://www.edcast.com/corp/wp-content/uploads/2016/11/Walmart-Logo-PNG-Transparent.png"],
     "JP Morghan & Chase": ["Investment banking company", "https://www.actaturcica.com/wp-content/uploads/2018/06/JPMorgan-Chase-Logo-PNG-Transparent.png"],
     "Microsoft": ["Technology company", "https://www.freepnglogos.com/uploads/microsoft-logo-hd-26.png"]
+  }
+
+  showModal(companyName){
+    alert(companyName);
+    const modal = this.modalController.create({
+      component: AnalysisPage
+    });
+    modal.then(x => x.present());
   }
 }

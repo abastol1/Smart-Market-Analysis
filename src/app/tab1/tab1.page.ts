@@ -20,10 +20,45 @@ export class Tab1Page {
   initializeApp() {
     this.platform.ready().then(() => {
       this.getNews();
+      this.test();
     });
   }
 
+  public serverData
+  test(){
+    this.http.get("http://127.0.0.1:5000/")
+    .subscribe(
+      (response) => {
+        console.log("Test Response: " , response);
+      },
+      error => {
+        alert("Calling Test Flask Call Failed");
+        console.log("Error: ", error);
+      },
+      () => {
+        alert("Test Flask Call Completed");
+      }
+    )
+  }
+
+  // stores array of news details, each news details contains [title, description, sourceName, URL]
   public NewsDetails = [];
+
+  /* *********************************************************************
+  Function Name: ionViewWillEnter
+  Purpose: Fired when entering a page, before it becomes the active one. In this function, it is used to give style to drop-right ion-item
+          Enable menu when logged in
+  Parameters:
+              
+  Return Value:
+  Local Variables:
+              coll = Drop-right ion-item
+              content = get sibling(class: Content) of the ion-item(Class: Collapsible)
+  Algorithm:
+              1) get all the Drop-right ion-item
+              2) If content height is already max, collapse the list
+              3) if content height is null, expand the list
+  ********************************************************************* */
 
   getNews(){
     const newsAPIKey = "36f2795f98ae409a811da0ed34415039";
