@@ -1,0 +1,35 @@
+// ion-card {
+//     width: 50%;
+// }
+
+ion-item-divider {
+    background-color: transparent;
+    font-size: large;
+    color: black;
+}
+
+#tweetBox {
+    max-height: 300px;
+    overflow: scroll;
+
+    ion-card-content {
+        ion-card{
+            padding: 0%;
+            margin: 0%;
+        }
+
+    }
+}
+
+.list-md {
+    padding-top: 2px;
+}
+
+ion-list {
+    // background-color: transparent;
+}
+// ion-item{
+//     font-style: italic;
+//     color: blue;
+//     border: 1px solid black;
+// }
