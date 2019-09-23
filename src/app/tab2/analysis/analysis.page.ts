@@ -21,7 +21,18 @@ export class AnalysisPage implements OnInit {
   }
 
   public tweets = []
-  public dataPoints = []
+  public dataPoints = [
+    { x: new Date(2012, 1, 1), y: 26 },
+    { x: new Date(2012, 1, 3), y: 38 },
+    { x: new Date(2012, 1, 5), y: 43 },
+    { x: new Date(2012, 1, 7), y: 79 },
+    { x: new Date(2012, 1, 11), y: 41 },
+    { x: new Date(2012, 1, 13), y: 54 },
+    { x: new Date(2012, 1, 20), y: 66 },
+    { x: new Date(2012, 1, 21), y: 200 },
+    { x: new Date(2012, 1, 25), y: 53 },
+    { x: new Date(2012, 1, 27), y: 60 }
+  ]
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -83,24 +94,45 @@ export class AnalysisPage implements OnInit {
       console.log("Date: ", splittedDate, " Closing Price: ", dataArray[i][1])
     }
 
-    this.dataPoints = [//array
-      { x: new Date(2012, 1, 1), y: 26 },
-      { x: new Date(2012, 1, 3), y: 38 },
-      { x: new Date(2012, 1, 5), y: 43 },
-      { x: new Date(2012, 1, 7), y: 29 },
-      { x: new Date(2012, 1, 11), y: 41 },
-      { x: new Date(2012, 1, 13), y: 54 },
-      { x: new Date(2012, 1, 20), y: 66 },
-      { x: new Date(2012, 1, 21), y: 60 },
-      { x: new Date(2012, 1, 25), y: 53 },
-      { x: new Date(2012, 1, 27), y: 60 }
-    ]
-    console.log("Datapoints are: ", this.dataPoints);
-
     var ctx = (<any>document.getElementById('canvas-stockgraph')).getContext('2d');
     var chart = new Chart(ctx, {
       type: 'line',
-      data: this.dataPoints,
+      data: {
+        datasets: [
+          {
+            label: "Stock Price",
+            data: this.dataPoints,
+            fill: false,
+            borderColor: 'red'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Stock Graph: Date VS Closing Price"
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "Closing Price"
+            }
+          }],
+          xAxes: [{
+            type: "time",
+            time: {
+              format: 'DD/MM/YYYY',
+              tooltipFormat: 'll'
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Date'
+            }
+          }]
+        }
+      }
     })
   }
 
