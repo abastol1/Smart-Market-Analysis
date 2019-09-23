@@ -8,10 +8,10 @@
   <!-- Prediction Card Box -->
   <ion-card color="subheader">
     <ion-card-header>
-        <ion-item-divider>
-            <ion-label>Prediction</ion-label>
-            <ion-icon name="pulse" slot="end"></ion-icon>
-          </ion-item-divider>
+      <ion-item-divider>
+        <ion-label>Prediction</ion-label>
+        <ion-icon name="pulse" slot="end"></ion-icon>
+      </ion-item-divider>
       <!-- <ion-card-title>Prediction</ion-card-title> -->
     </ion-card-header>
     <ion-card-content>
@@ -23,10 +23,10 @@
   <!-- Twitter Sentiment Analysis -->
   <ion-card color="subheader" id="pieChart">
     <ion-card-header>
-        <ion-item-divider>
-            <ion-label>Twitter Sentiment Analysis</ion-label>
-            <ion-icon name="stats" slot="end"></ion-icon>
-          </ion-item-divider>
+      <ion-item-divider>
+        <ion-label>Twitter Sentiment Analysis</ion-label>
+        <ion-icon name="stats" slot="end"></ion-icon>
+      </ion-item-divider>
       <!-- <ion-card-title>Twitter Sentiment Analysis</ion-card-title> -->
     </ion-card-header>
     <ion-card-content>
@@ -44,23 +44,36 @@
 
   <!-- Company Related Tweets -->
   <ion-card color="subheader" id="tweetBox">
-      <ion-card-header>
-        <ion-item-divider>
-          <ion-label>Company Related Tweets</ion-label>
-          <ion-icon name="logo-twitter" slot="end"></ion-icon>
-        </ion-item-divider>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list *ngFor="let tweet of tweets">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-subtitle>{{ tweet }} </ion-card-subtitle>
-            </ion-card-header>
-          </ion-card>
-          <!-- <ion-item> {{ tweet }}</ion-item> -->
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+    <ion-card-header>
+      <ion-item-divider>
+        <ion-label>Company Related Tweets</ion-label>
+        <ion-icon name="logo-twitter" slot="end"></ion-icon>
+      </ion-item-divider>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngFor="let tweet of tweets" color="subheader">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{ tweet }} </ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+        <!-- <ion-item> {{ tweet }}</ion-item> -->
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card color="subheader">
+    <ion-card-header>
+      <ion-item-divider>
+        <ion-label>Historical Data Graph</ion-label>
+        <ion-icon name="trending-up" slot="end"></ion-icon>
+      </ion-item-divider>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- <canvas id="line-chart" width="800" height="450"></canvas> -->
+      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
 
 <!-- Close Button for Modal -->

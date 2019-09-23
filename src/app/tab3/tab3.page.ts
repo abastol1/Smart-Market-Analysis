@@ -17,7 +17,7 @@ export class Tab3Page {
   }
 
   initializeApp(){
-    this.platform.ready().then(() => {
+    this.platform.ready().then(() => {  
       this.useAnotherOneWithWebpack();
     })
   }

@@ -25,6 +25,7 @@ export class AnalysisPage implements OnInit {
   initializeApp(){
     this.platform.ready().then(() => {
       this.getTweetAndSentiment();
+      this.adjustGraphs();
       // this.showAnalysisPieChart();
     })
   }
@@ -33,7 +34,7 @@ export class AnalysisPage implements OnInit {
   }
 
   getTweetAndSentiment(){
-    this.http.get("http://1afe044f.ngrok.io/")
+    this.http.get("http://127.0.0.1:5000/")
     .subscribe(
       (response) => {
         console.log("Test Response: " , response);
@@ -50,6 +51,21 @@ export class AnalysisPage implements OnInit {
       },
       () => {
         // alert("Test Flask Call Completed");
+      }
+    )
+  }
+
+  adjustGraphs(){
+    this.http.get("http://127.0.0.1:5000/graphdetail")
+    .subscribe(
+      (response) => {
+        console.log("Graph DataSets: ", response);
+      },
+      error => {
+        alert("Error While Getting")
+      },
+      () =>{
+        console.log("Graph Detail: API Call Completed");
       }
     )
   }

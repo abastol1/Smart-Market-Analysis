@@ -20,7 +20,7 @@ export class Tab1Page {
   initializeApp() {
     this.platform.ready().then(() => {
       this.getNews();
-      this.test();
+      // this.test();
     });
   }
 
