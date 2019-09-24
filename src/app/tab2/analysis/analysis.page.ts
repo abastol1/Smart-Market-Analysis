@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ModalController, Platform } from '@ionic/angular';
 import { Chart } from 'chart.js'
-import { HttpClient } from '@angular/common/http';
-import { TouchSequence } from 'selenium-webdriver';
 import { Http } from '@angular/http';
 
 @Component({
@@ -25,32 +23,73 @@ export class AnalysisPage implements OnInit {
   }
 
   public tweets = []
-  public dataPoints = [
-    { x: new Date(2012, 1, 1), y: 26 },
-    { x: new Date(2012, 1, 3), y: 38 },
-    { x: new Date(2012, 1, 5), y: 43 },
-    { x: new Date(2012, 1, 7), y: 79 },
-    { x: new Date(2012, 1, 11), y: 41 },
-    { x: new Date(2012, 1, 13), y: 54 },
-    { x: new Date(2012, 1, 20), y: 66 },
-    { x: new Date(2012, 1, 21), y: 200 },
-    { x: new Date(2012, 1, 25), y: 53 },
-    { x: new Date(2012, 1, 27), y: 60 }
-  ]
+  public dataPoints = []
+  public dateToday= new Date().toDateString() + ", " + new Date().toLocaleTimeString();
+  public currentStock = {
+    'PRESENT_VALUE': '',
+    'PRESENT_GROWTH': '',
+    'OTHER_DETAILS': {
+      'PREV_CLOSE': '',
+      'OPEN': '',
+      'ONE_YEAR_TARGET_PRICE': '',
+      'DIVIDEND_AND_YIELD': ''
+    }
+  }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.getTweetAndSentiment();
       this.adjustGraphs();
+      // this.getCurrentStockDetail();
     })
   }
 
   ngOnInit() {
     console.log("Modal Received, Company Name: ", this.navParams.data.companyName);
+    this.companyName = this.navParams.data.companyName;
+  }
+
+  ionViewWillEnter(){
+    let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
+
+    this.http.get(companySpecificUrl)
+    .subscribe(
+      (response) => {
+        response = JSON.parse(response['_body']);
+        console.log("Current Stock Detail: ", response);
+        this.currentStock = response;
+      },
+      error => {
+        alert("Failed to get current stock");
+      },
+      () => {
+        console.log("Successful while getting stock detail");
+      }
+    )
+  }
+
+  getCurrentStockDetail() {
+    let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
+
+    this.http.get(companySpecificUrl)
+    .subscribe(
+      (response) => {
+        response = JSON.parse(response['_body']);
+        console.log("Current Stock Detail: ", response);
+        this.currentStock = response;
+      },
+      error => {
+        alert("Failed to get current stock");
+      },
+      () => {
+        console.log("Successful while getting stock detail");
+      }
+    )
   }
 
   getTweetAndSentiment() {
-    this.http.get("http://d295839e.ngrok.io/")
+    let companySpecificUrl = "http://127.0.0.1:5000/" + this.companyName;
+    this.http.get(companySpecificUrl)
       .subscribe(
         (response) => {
           response = JSON.parse(response['_body']);
@@ -71,13 +110,22 @@ export class AnalysisPage implements OnInit {
       )
   }
 
+  cleanDateColumn(data){
+    for ( let i = 0; i < data.length; i++){
+      let splittedDate = data[i][0].split("/");
+      let tempDate = new Date(splittedDate[2], splittedDate[0], splittedDate[1]);
+      this.dataPoints.push({x: tempDate, y: data[i][1]});
+    }
+  }
+
   // Gets data from Flask Server for plotting graphs
   adjustGraphs() {
-    this.http.get("http://d295839e.ngrok.io/graphdetail")
+    this.http.get("http://127.0.0.1:5000/graphdetail")
       .subscribe(
         (response) => {
           response = JSON.parse(response['_body']);
           console.log("Graph DataSets: ", response);
+          this.cleanDateColumn(response['Data']);
           this.drawChart(response['Data']);
         },
         error => {
@@ -91,13 +139,6 @@ export class AnalysisPage implements OnInit {
 
   // dataArray: array of array[date, stockPrice]
   drawChart(dataArray) {
-    console.log("In DrawChart: ", dataArray);
-    let data = []
-    for (let i = 0; i < dataArray.length; i++) {
-      let splittedDate = dataArray[i][0].split("/")
-      // data.append({})
-      console.log("Date: ", splittedDate, " Closing Price: ", dataArray[i][1])
-    }
 
     var ctx = (<any>document.getElementById('canvas-stockgraph')).getContext('2d');
     var chart = new Chart(ctx, {
@@ -119,7 +160,7 @@ export class AnalysisPage implements OnInit {
           text: "Stock Graph: Date VS Closing Price"
         },
         scales: {
-          yAxes: [{
+          yAxes: [{ 
             scaleLabel: {
               display: true,
               labelString: "Closing Price"

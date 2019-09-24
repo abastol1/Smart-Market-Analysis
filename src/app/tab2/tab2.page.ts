@@ -21,10 +21,10 @@ export class Tab2Page {
     "IBM" : ["Computer hardware company", "https://www.impactoneducation.org/wp-content/uploads/2018/06/ibm-logo-png-transparent-background.png"],
     "HP" : ["Software company", "https://www.pngkey.com/png/detail/74-748780_hp-logo-png-corporate-welln-hewlett-packard-current.png"],
     "Apple" : ["Technology company", "https://amplab.cs.berkeley.edu/wp-content/uploads/2015/07/logo-apple.png"],
-    "Samsung" : ["Multinational conglomerate company", "http://pluspng.com/img-png/samsung-logo-png-samsung-logo-png-2104.png"],
+    // "Samsung" : ["Multinational conglomerate company", "http://pluspng.com/img-png/samsung-logo-png-samsung-logo-png-2104.png"],
     "Tesla": ["Automotive company", "https://pngimg.com/uploads/tesla_logo/tesla_logo_PNG21.png"],
     "Walmart": ["Retail company", "https://www.edcast.com/corp/wp-content/uploads/2016/11/Walmart-Logo-PNG-Transparent.png"],
-    "JP Morghan & Chase": ["Investment banking company", "https://www.actaturcica.com/wp-content/uploads/2018/06/JPMorgan-Chase-Logo-PNG-Transparent.png"],
+    // "JP Morghan & Chase": ["Investment banking company", "https://www.actaturcica.com/wp-content/uploads/2018/06/JPMorgan-Chase-Logo-PNG-Transparent.png"],
     "Microsoft": ["Technology company", "https://www.freepnglogos.com/uploads/microsoft-logo-hd-26.png"]
   }
 
@@ -33,7 +33,7 @@ export class Tab2Page {
     const modal = this.modalController.create({
       component: AnalysisPage,
       componentProps: {
-        companyName: 'Tesla'
+        companyName: companyName
       }
     });
     modal.then(x => x.present());

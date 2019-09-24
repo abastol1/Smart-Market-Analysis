@@ -20,6 +20,33 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card color="subheader">
+    <ion-card-header>
+      <ion-item-divider>
+        <ion-label>Current Stock Detail</ion-label>
+        <ion-icon name="information-circle-outline" slot="end"></ion-icon>
+      </ion-item-divider>
+      <!-- <ion-card-title>Prediction</ion-card-title> -->
+    </ion-card-header>
+    <ion-card-content color="subheader">
+      <ion-grid style="font-weight: bold">
+        <ion-row >
+          <ion-col>Present Value: {{ currentStock['PRESENT_VALUE'] }}</ion-col>
+          <ion-col>Present Growth: {{ currentStock['PRESENT_GROWTH'] }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Open: {{ currentStock['OTHER_DETAILS']['OPEN'] }}</ion-col>
+          <ion-col>Previous Close: {{ currentStock['OTHER_DETAILS']['PREV_CLOSE'] }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>One Year Target Price: {{ currentStock['OTHER_DETAILS']['ONE_YEAR_TARGET_PRICE'] }}</ion-col>
+          <ion-col>Dividend & Yield: {{ currentStock['OTHER_DETAILS']['DIVIDEND_AND_YIELD'] }}</ion-col>
+        </ion-row>
+      </ion-grid>
+      <span>- As of {{ dateToday }} </span>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Twitter Sentiment Analysis -->
   <ion-card color="subheader" id="pieChart">
     <ion-card-header>
@@ -41,7 +68,7 @@
   <ion-card color="subheader" id="tweetBox">
     <ion-card-header>
       <ion-item-divider>
-        <ion-label>Company Related Tweets</ion-label>
+        <ion-label>{{ companyName }} Related Tweets</ion-label>
         <ion-icon name="logo-twitter" slot="end"></ion-icon>
       </ion-item-divider>
     </ion-card-header>
