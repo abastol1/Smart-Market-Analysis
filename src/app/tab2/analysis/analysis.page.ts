@@ -32,7 +32,13 @@ export class AnalysisPage implements OnInit {
       'PREV_CLOSE': '',
       'OPEN': '',
       'ONE_YEAR_TARGET_PRICE': '',
-      'DIVIDEND_AND_YIELD': ''
+      'DIVIDEND_AND_YIELD': '',
+      'AVERAGE_VOLUME_3MONTH':'',
+      'EPS_RATIO':'',
+      'EX_DIVIDEND_DATE':'',
+      'MARKET_CAP':'',
+      'PE_RATIO':'',
+      'TD_VOLUME':'',
     }
   }
 
@@ -76,7 +82,7 @@ export class AnalysisPage implements OnInit {
       (response) => {
         response = JSON.parse(response['_body']);
         console.log("Current Stock Detail: ", response);
-        this.currentStock = response;
+        // this.currentStock = response;
       },
       error => {
         alert("Failed to get current stock");
@@ -93,7 +99,6 @@ export class AnalysisPage implements OnInit {
       .subscribe(
         (response) => {
           response = JSON.parse(response['_body']);
-          console.log("Test Response: ", response);
           console.log("Negative: ", response['Negative'])
           console.log("Neutral: ", response['Neutral'])
           console.log("Positive: ", response['Positive'])
@@ -120,7 +125,8 @@ export class AnalysisPage implements OnInit {
 
   // Gets data from Flask Server for plotting graphs
   adjustGraphs() {
-    this.http.get("http://127.0.0.1:5000/graphdetail")
+    let companySpecificUrl = "http://127.0.0.1:5000/graphdetail/" + this.companyName;
+    this.http.get(companySpecificUrl)
       .subscribe(
         (response) => {
           response = JSON.parse(response['_body']);

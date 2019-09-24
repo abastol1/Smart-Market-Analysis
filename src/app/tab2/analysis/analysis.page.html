@@ -74,12 +74,11 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list *ngFor="let tweet of tweets" color="subheader">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>{{ tweet }} </ion-card-subtitle>
+        <ion-card style="font-weight: bold;">
+          <ion-card-header >
+            <ion-card-subtitle style="font-weight: bold; font-style: italic; font-size: small;">{{ tweet }} </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
-        <!-- <ion-item> {{ tweet }}</ion-item> -->
       </ion-list>
     </ion-card-content>
   </ion-card>
@@ -87,7 +86,7 @@
   <ion-card color="subheader">
     <ion-card-header>
       <ion-item-divider>
-        <ion-label>Historical Data Graph</ion-label>
+        <ion-label>Historical Data Graph: {{ companyName }}</ion-label>
         <ion-icon name="trending-up" slot="end"></ion-icon>
       </ion-item-divider>
     </ion-card-header>
