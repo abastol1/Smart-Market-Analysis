@@ -3,19 +3,23 @@ import { NavParams, ModalController, Platform } from '@ionic/angular';
 import { Chart } from 'chart.js'
 import { HttpClient } from '@angular/common/http';
 import { TouchSequence } from 'selenium-webdriver';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-analysis',
   templateUrl: './analysis.page.html',
   styleUrls: ['./analysis.page.scss'],
+  // providers: [Http]
 })
 export class AnalysisPage implements OnInit {
 
+  companyName: string;
+
   constructor(
-    private navParams: NavParams,
     private modalController: ModalController,
     private platform: Platform,
-    private http: HttpClient
+    private http: Http,
+    private navParams: NavParams
   ) {
     this.initializeApp();
   }
@@ -38,24 +42,24 @@ export class AnalysisPage implements OnInit {
     this.platform.ready().then(() => {
       this.getTweetAndSentiment();
       this.adjustGraphs();
-      // this.showAnalysisPieChart();
     })
   }
 
   ngOnInit() {
+    console.log("Modal Received, Company Name: ", this.navParams.data.companyName);
   }
 
   getTweetAndSentiment() {
-    this.http.get("http://127.0.0.1:5000/")
+    this.http.get("http://d295839e.ngrok.io/")
       .subscribe(
         (response) => {
+          response = JSON.parse(response['_body']);
           console.log("Test Response: ", response);
           console.log("Negative: ", response['Negative'])
           console.log("Neutral: ", response['Neutral'])
           console.log("Positive: ", response['Positive'])
           this.tweets = response['Tweets']
           this.showAnalysisPieChart(response['Positive'], response['Neutral'], response['Negative']);
-
         },
         error => {
           alert("Calling Test Flask Call Failed");
@@ -69,9 +73,10 @@ export class AnalysisPage implements OnInit {
 
   // Gets data from Flask Server for plotting graphs
   adjustGraphs() {
-    this.http.get("http://127.0.0.1:5000/graphdetail")
+    this.http.get("http://d295839e.ngrok.io/graphdetail")
       .subscribe(
         (response) => {
+          response = JSON.parse(response['_body']);
           console.log("Graph DataSets: ", response);
           this.drawChart(response['Data']);
         },

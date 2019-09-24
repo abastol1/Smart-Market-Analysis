@@ -14,6 +14,7 @@
   <ion-list id="newsFeed">
     <ion-item *ngFor="let eachNews of NewsDetails" color="mainheader">
       <ion-card class="welcome-card" color="subheader" [href]="eachNews[3]">
+        <ion-img [src]="eachNews[4]"></ion-img>
         <ion-card-header>
           <ion-card-title>{{ eachNews[0] }}</ion-card-title>
         </ion-card-header>

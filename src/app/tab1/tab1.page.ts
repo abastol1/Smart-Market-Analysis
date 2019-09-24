@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { Http } from '@angular/http'
 
 import { Platform } from '@ionic/angular';
 
@@ -11,7 +11,7 @@ import { Platform } from '@ionic/angular';
 export class Tab1Page {
 
   constructor(
-    private http: HttpClient,
+    private http: Http,
     private platform: Platform
   ) {
     this.initializeApp();
@@ -20,44 +20,31 @@ export class Tab1Page {
   initializeApp() {
     this.platform.ready().then(() => {
       this.getNews();
-      // this.test();
     });
   }
 
   public serverData
-  test(){
-    this.http.get("http://127.0.0.1:5000/")
-    .subscribe(
-      (response) => {
-        console.log("Test Response: " , response);
-      },
-      error => {
-        alert("Calling Test Flask Call Failed");
-        console.log("Error: ", error);
-      },
-      () => {
-        alert("Test Flask Call Completed");
-      }
-    )
-  }
 
   // stores array of news details, each news details contains [title, description, sourceName, URL]
   public NewsDetails = [];
 
   /* *********************************************************************
-  Function Name: ionViewWillEnter
-  Purpose: Fired when entering a page, before it becomes the active one. In this function, it is used to give style to drop-right ion-item
-          Enable menu when logged in
+  Function Name: getNews
+  Purpose: Calls NEWS API to get latest news
   Parameters:
-              
+              none
   Return Value:
   Local Variables:
-              coll = Drop-right ion-item
-              content = get sibling(class: Content) of the ion-item(Class: Collapsible)
+              newsAPIKEY: api key for NEWS API
+              newsAPIURL: api url where get request is send
+              response: received from API, stores all the information of news
+              news: array that stores information of a particular news[Title, Description, SourceName, URL, IMG]
   Algorithm:
-              1) get all the Drop-right ion-item
-              2) If content height is already max, collapse the list
-              3) if content height is null, expand the list
+              1) send GET request to the NEWS API
+              2) parse the response body to get information of News
+              3) Get title, description, source, url and img for each news from Response
+              4) Add title, description, source, url and img to a array
+              5) push the array to NewsDetails
   ********************************************************************* */
 
   getNews(){
@@ -68,20 +55,25 @@ export class Tab1Page {
     this.http.get(newsAPIUrl)
       .subscribe(
         (response) => {
+          // response['_body'] stores all information as a string
+          response = JSON.parse(response['_body']);
+          console.log("Response: ", response['_body']);
+          // loop over each news and get Details
           for ( let i = 0; i < response['articles'].length; i++){
+
             let title = response['articles'][i]['title'];
             let description = response['articles'][i]['description'].split(".")[0];
             let sourceName = response['articles'][i]['source']['name'];
             let url = response['articles'][i]['url'];
-
-            let news = [title, description, sourceName, url];
+            let img = response['articles'][i]['urlToImage'];
+            let news = [title, description, sourceName, url, img];
             this.NewsDetails.push(news);
-
           }
           console.log("Main Array News Details: ", this.NewsDetails);
         },
         error => {
           alert("Calling NewsApi Failed");
+          console.log("Error NEWS API: ", error);
         },
         () => {
           alert("NewsAPI Call Completed");

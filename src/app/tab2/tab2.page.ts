@@ -31,7 +31,10 @@ export class Tab2Page {
   showModal(companyName){
     alert(companyName);
     const modal = this.modalController.create({
-      component: AnalysisPage
+      component: AnalysisPage,
+      componentProps: {
+        companyName: 'Tesla'
+      }
     });
     modal.then(x => x.present());
   }
