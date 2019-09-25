@@ -33,12 +33,6 @@ export class AnalysisPage implements OnInit {
       'OPEN': '',
       'ONE_YEAR_TARGET_PRICE': '',
       'DIVIDEND_AND_YIELD': '',
-      'AVERAGE_VOLUME_3MONTH':'',
-      'EPS_RATIO':'',
-      'EX_DIVIDEND_DATE':'',
-      'MARKET_CAP':'',
-      'PE_RATIO':'',
-      'TD_VOLUME':'',
     }
   }
 
@@ -63,7 +57,12 @@ export class AnalysisPage implements OnInit {
       (response) => {
         response = JSON.parse(response['_body']);
         console.log("Current Stock Detail: ", response);
-        this.currentStock = response;
+        this.currentStock['PRESENT_VALUE'] = response['PRESENT_VALUE'];
+        this.currentStock['PRESENT_GROWTH'] = response['PRESENT_GROWTH'];
+        this.currentStock['OTHER_DETAILS']['OPEN'] = response['priceDetails']['OPEN'];
+        this.currentStock['OTHER_DETAILS']['ONE_YEAR_TARGET_PRICE'] = response['priceDetails']['ONE_YEAR_TARGET_PRICE'];
+        this.currentStock['OTHER_DETAILS']['DIVIDEND_AND_YIELD'] = response['priceDetails']['DIVIDEND_AND_YIELD'];
+        this.currentStock['OTHER_DETAILS']['PREV_CLOSE'] = response['priceDetails']['PREV_CLOSE'];
       },
       error => {
         alert("Failed to get current stock");
