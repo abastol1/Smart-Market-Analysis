@@ -25,6 +25,9 @@ export class AnalysisPage implements OnInit {
   public tweets = []
   public dataPoints = []
   public dateToday= new Date().toDateString() + ", " + new Date().toLocaleTimeString();
+  
+  // Placeholder for current stock detail
+  // used in html file for dynamic update of data
   public currentStock = {
     'PRESENT_VALUE': '',
     'PRESENT_GROWTH': '',
@@ -36,18 +39,66 @@ export class AnalysisPage implements OnInit {
     }
   }
 
+  // Whenever the platform is completely loaded, this.platform.ready is fired
   initializeApp() {
     this.platform.ready().then(() => {
+      // calls server function to get tweets and sentiment of tweets
       this.getTweetAndSentiment();
+      // Creates graph by getting data from Flask Server
       this.adjustGraphs();
       // this.getCurrentStockDetail();
     })
   }
 
+  // called when tab2 opens this modal
   ngOnInit() {
     console.log("Modal Received, Company Name: ", this.navParams.data.companyName);
+    // companyName is passed from tab2
     this.companyName = this.navParams.data.companyName;
   }
+
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
 
   ionViewWillEnter(){
     let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
@@ -73,6 +124,49 @@ export class AnalysisPage implements OnInit {
     )
   }
 
+
+    /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
   getCurrentStockDetail() {
     let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
 
@@ -92,6 +186,48 @@ export class AnalysisPage implements OnInit {
     )
   }
 
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
   getTweetAndSentiment() {
     let companySpecificUrl = "http://127.0.0.1:5000/" + this.companyName;
     this.http.get(companySpecificUrl)
@@ -114,6 +250,48 @@ export class AnalysisPage implements OnInit {
       )
   }
 
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/  
   cleanDateColumn(data){
     for ( let i = 0; i < data.length; i++){
       let splittedDate = data[i][0].split("/");
@@ -123,6 +301,49 @@ export class AnalysisPage implements OnInit {
   }
 
   // Gets data from Flask Server for plotting graphs
+  
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
   adjustGraphs() {
     let companySpecificUrl = "http://127.0.0.1:5000/graphdetail/" + this.companyName;
     this.http.get(companySpecificUrl)
@@ -142,6 +363,48 @@ export class AnalysisPage implements OnInit {
       )
   }
 
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
   // dataArray: array of array[date, stockPrice]
   drawChart(dataArray) {
 
@@ -187,6 +450,48 @@ export class AnalysisPage implements OnInit {
     })
   }
 
+  /**/
+  /*
+  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+
+  NAME
+
+          spmLongShort::ProcessNewOpens - processes new opens for this model.
+
+  SYNOPSIS
+
+          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
+                                                                        , Jar::Date a_date );
+              a_obj             --> the trading object to be opened.
+              a_capital        --> the amount of capital to apply.
+              a_date           --> the date we are processing in the simulation.
+
+  DESCRIPTION
+
+          This function will attempt to open the trading object a_obj with the
+          specified amount of capital. Before attempting the open, it will
+          apply portfolio constraints. If any of the portfolio constraints are
+          not met, this object will be opened as a phantom.  The constraint
+          may also reduce the amount of capital to be applied.
+
+          The status flags and phantom flag for the object will be set
+          appropriately.
+
+  RETURNS
+
+          Returns true if the open was successful and false if it was opened
+          as a phantom.  One of these two cases will always occur.
+
+  AUTHOR
+
+          Victor Miller
+
+  DATE
+
+          6:27pm 9/1/2001
+
+  */
+  /**/
   showAnalysisPieChart(positive, neutral, negative) {
     var ctx = (<any>document.getElementById('canvas-chart')).getContext('2d');
     var chart = new Chart(ctx, {
