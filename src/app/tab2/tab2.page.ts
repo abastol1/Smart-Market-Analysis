@@ -28,6 +28,40 @@ export class Tab2Page {
     "Microsoft": ["Technology company", "https://www.freepnglogos.com/uploads/microsoft-logo-hd-26.png"]
   }
 
+  /**/
+  /*
+  showModal
+
+  NAME
+
+          showModal: Called when user clicks on a company's card. 
+
+  SYNOPSIS
+
+          showModal(companyName)
+                  companyName --> name of the company(detail of which company to show)
+                
+  DESCRIPTION
+          This function is called when user clicks on one of the company's cards.
+          Creats a Modal which is displayed over this component., calls the modal page
+          passes companyName as its navigation parameters.
+
+          Displays Modal over current page
+
+  RETURNS
+
+          none
+
+  AUTHOR
+
+          Anuj
+
+  DATE
+
+          5:44pm 9/11/2019
+
+  */
+  /**/
   showModal(companyName){
     alert(companyName);
     const modal = this.modalController.create({

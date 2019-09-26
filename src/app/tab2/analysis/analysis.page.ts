@@ -22,8 +22,12 @@ export class AnalysisPage implements OnInit {
     this.initializeApp();
   }
 
+  // Stores all the tweets,  used to dynamically update tweets
   public tweets = []
+  // Stores dataPoints of stock detail, used to create chart
   public dataPoints = []
+  
+  // gets todays date 
   public dateToday= new Date().toDateString() + ", " + new Date().toLocaleTimeString();
   
   // Placeholder for current stock detail
@@ -46,7 +50,6 @@ export class AnalysisPage implements OnInit {
       this.getTweetAndSentiment();
       // Creates graph by getting data from Flask Server
       this.adjustGraphs();
-      // this.getCurrentStockDetail();
     })
   }
 
@@ -59,43 +62,36 @@ export class AnalysisPage implements OnInit {
 
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  ionViewWillEnter()
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          ionViewWillEnter()- processes new opens for this model.
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          ionViewWillEnter()
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
-
-          The status flags and phantom flag for the object will be set
-          appropriately.
+          Fired when entering a page, after it becomes the active page. This function
+          updates current stock data before the view comes live. It gets companyName
+          from tab2 amnd calls the Server by passing url to get new stock data of the
+          company. 
+          
+          Updating the detail of current stock, this update is reflected in html page as well
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          NaN. Only updates stock data by calling api
 
   AUTHOR
 
-          Victor Miller
+          Anuj Bastola
 
   DATE
 
-          6:27pm 9/1/2001
+          02:27pm 9/10/2019
 
   */
   /**/
@@ -106,8 +102,10 @@ export class AnalysisPage implements OnInit {
     this.http.get(companySpecificUrl)
     .subscribe(
       (response) => {
+        // Parsing the response from server, response is usally str
         response = JSON.parse(response['_body']);
         console.log("Current Stock Detail: ", response);
+        // Updating the detail of current stock, this update is reflected in html page as well
         this.currentStock['PRESENT_VALUE'] = response['PRESENT_VALUE'];
         this.currentStock['PRESENT_GROWTH'] = response['PRESENT_GROWTH'];
         this.currentStock['OTHER_DETAILS']['OPEN'] = response['priceDetails']['OPEN'];
@@ -115,71 +113,11 @@ export class AnalysisPage implements OnInit {
         this.currentStock['OTHER_DETAILS']['DIVIDEND_AND_YIELD'] = response['priceDetails']['DIVIDEND_AND_YIELD'];
         this.currentStock['OTHER_DETAILS']['PREV_CLOSE'] = response['priceDetails']['PREV_CLOSE'];
       },
+      // Called when API call fails
       error => {
         alert("Failed to get current stock");
       },
-      () => {
-        console.log("Successful while getting stock detail");
-      }
-    )
-  }
-
-
-    /**/
-  /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
-
-  NAME
-
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
-
-  SYNOPSIS
-
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
-
-  DESCRIPTION
-
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
-
-          The status flags and phantom flag for the object will be set
-          appropriately.
-
-  RETURNS
-
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
-
-  AUTHOR
-
-          Victor Miller
-
-  DATE
-
-          6:27pm 9/1/2001
-
-  */
-  /**/
-  getCurrentStockDetail() {
-    let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
-
-    this.http.get(companySpecificUrl)
-    .subscribe(
-      (response) => {
-        response = JSON.parse(response['_body']);
-        console.log("Current Stock Detail: ", response);
-        // this.currentStock = response;
-      },
-      error => {
-        alert("Failed to get current stock");
-      },
+      // called when api call is completed
       () => {
         console.log("Successful while getting stock detail");
       }
@@ -188,43 +126,39 @@ export class AnalysisPage implements OnInit {
 
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  getTweetAndSentiment
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          getTweetAndSentiment: Gets sentiment data of tweet, gets tweet related to 
+                                a company and displays the sentiment score data
+                                in a pie chart
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          getTweetAndSentiment()
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
+          This function will attempt to get tweets and sentiment of those tweets
+          related to a company and calls 'showAnalysisPieChart' which creates a 
+          pie chart of result received from server. This function will get comapnyName
+          from tab2 when a company card is clicked.
 
-          The status flags and phantom flag for the object will be set
-          appropriately.
+          Updates the tweets pubic class variable. In case of API Failed, it then 
+          shows a alert box saying that the API called failed.
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          Returns nothing.
 
   AUTHOR
 
-          Victor Miller
+          Anuj Bastola
 
   DATE
 
-          6:27pm 9/1/2001
+          02:48pm 9/10/2019
 
   */
   /**/
@@ -252,43 +186,37 @@ export class AnalysisPage implements OnInit {
 
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  cleanDateColumn
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          cleanDateColum: Cleaning date
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          cleanDateColumn(data)
+              data: Array of arrays with first element, Date 
+              and second element Closing Stock Price
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
+          This function iterates over a cleanDateColumn. Splits the date(first element) 
+          by '/' wildcard and stores it on splittedDate. Creates a new Date() object by 
+          passing month, day, and year(used from drawing charts). updates dataPoints with
+          x as date object and y as closing price(used for date vs closing price chart)
 
-          The status flags and phantom flag for the object will be set
-          appropriately.
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          Nothing
 
   AUTHOR
 
-          Victor Miller
+          Anuj Bastola
 
   DATE
 
-          6:27pm 9/1/2001
+          3:27pm 9/10/2019
 
   */
   /**/  
@@ -300,47 +228,37 @@ export class AnalysisPage implements OnInit {
     }
   }
 
-  // Gets data from Flask Server for plotting graphs
   
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  adjustGraphs
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          adjustGraphs: Calls Server to get data, calls cleanDateColumn to prepare
+                        data for chart, calls drawChart() to draw chart
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          adjustGraphs()
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
-
-          The status flags and phantom flag for the object will be set
-          appropriately.
+          This function will call server, the server then return data['Date', 'Close']
+          from company's historical data. Gets data as response, parses str response
+          to JSON, calls cleanDateColumn, and finally calls drawChart()
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          Nothing
 
   AUTHOR
 
-          Victor Miller
+          Anuj
 
   DATE
 
-          6:27pm 9/1/2001
+          3:58pm 9/10/2019
 
   */
   /**/
@@ -352,7 +270,7 @@ export class AnalysisPage implements OnInit {
           response = JSON.parse(response['_body']);
           console.log("Graph DataSets: ", response);
           this.cleanDateColumn(response['Data']);
-          this.drawChart(response['Data']);
+          this.drawChart();
         },
         error => {
           alert("Error While Getting")
@@ -365,48 +283,38 @@ export class AnalysisPage implements OnInit {
 
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  drawChart
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          drawChart: Gets canvas element from html and draws a chart of
+                      date vs stock graph
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          drawChart()
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
-
-          The status flags and phantom flag for the object will be set
-          appropriately.
+          Gets canvas element by id. Creates a new instance od chart. Specifies labels
+          for axes. Passes 'this.datapoints' as a dataset for the graph. Also specifies 
+          format for Date axes
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          Nothing
 
   AUTHOR
 
-          Victor Miller
+          Anuj
 
   DATE
 
-          6:27pm 9/1/2001
+          3:58pm 9/10/2019
 
   */
   /**/
-  // dataArray: array of array[date, stockPrice]
-  drawChart(dataArray) {
+  drawChart() {
 
     var ctx = (<any>document.getElementById('canvas-stockgraph')).getContext('2d');
     var chart = new Chart(ctx, {
@@ -452,43 +360,37 @@ export class AnalysisPage implements OnInit {
 
   /**/
   /*
-  spmLongShort::ProcessNewOpens() spmLongShort::ProcessNewOpens()
+  showAnalysisPieChart
 
   NAME
 
-          spmLongShort::ProcessNewOpens - processes new opens for this model.
+          drawChart: Gets canvas element from html and draws a pie chart 
+                      with three categories(neutral, positive, negative)
 
   SYNOPSIS
 
-          bool spmLongShort::ProcessNewOpens( spmTrObj &a_obj, double a_capital
-                                                                        , Jar::Date a_date );
-              a_obj             --> the trading object to be opened.
-              a_capital        --> the amount of capital to apply.
-              a_date           --> the date we are processing in the simulation.
+          showAnalysisPieChart()
+                positive: % of positive tweets
+                neutral: % of neutral tweets
+                negative: % of negative tweets
 
   DESCRIPTION
 
-          This function will attempt to open the trading object a_obj with the
-          specified amount of capital. Before attempting the open, it will
-          apply portfolio constraints. If any of the portfolio constraints are
-          not met, this object will be opened as a phantom.  The constraint
-          may also reduce the amount of capital to be applied.
-
-          The status flags and phantom flag for the object will be set
-          appropriately.
+          Gets canvas element by id. Creates a new instance od chart. Specifies labels
+          for the three categories. Specifies [positive, negative, neutral] as data for
+          the pie-chart
 
   RETURNS
 
-          Returns true if the open was successful and false if it was opened
-          as a phantom.  One of these two cases will always occur.
+          Nothing
 
   AUTHOR
 
-          Victor Miller
+          Anuj
 
   DATE
 
-          6:27pm 9/1/2001
+          4:47pm 9/10/2019
 
   */
   /**/
