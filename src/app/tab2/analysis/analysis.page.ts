@@ -26,6 +26,9 @@ export class AnalysisPage implements OnInit {
   public tweets = []
   // Stores dataPoints of stock detail, used to create chart
   public dataPoints = []
+
+  // Predicted CLosing price
+  public prediction : string
   
   // gets todays date 
   public dateToday= new Date().toDateString() + ", " + new Date().toLocaleTimeString();
@@ -50,6 +53,8 @@ export class AnalysisPage implements OnInit {
       this.getTweetAndSentiment();
       // Creates graph by getting data from Flask Server
       this.adjustGraphs();
+      // 
+      this.getPredictionScore()
     })
   }
 
@@ -271,6 +276,25 @@ export class AnalysisPage implements OnInit {
           console.log("Graph DataSets: ", response);
           this.cleanDateColumn(response['Data']);
           this.drawChart();
+        },
+        error => {
+          alert("Error While Getting")
+        },
+        () => {
+          console.log("Graph Detail: API Call Completed");
+        }
+      )
+  }
+
+
+  getPredictionScore() {
+    let companySpecificUrl = "http://127.0.0.1:5000/prediction/" + this.companyName;
+    this.http.get(companySpecificUrl)
+      .subscribe(
+        (response) => {
+          response = JSON.parse(response['_body']);
+          console.log("Prediction Price: ", response['prediction']);
+          this.prediction = (parseFloat(response['prediction'])).toFixed(2)
         },
         error => {
           alert("Error While Getting")
