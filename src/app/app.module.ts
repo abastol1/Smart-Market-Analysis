@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AnalysisPageModule } from './tab2/analysis/analysis.module'
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+// import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
             AppRoutingModule,
             HttpModule,
             AnalysisPageModule,
-            HttpClientModule
+            // HttpClientModule
           ],
   providers: [
     StatusBar,

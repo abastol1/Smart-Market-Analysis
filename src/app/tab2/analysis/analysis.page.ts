@@ -104,6 +104,7 @@ export class AnalysisPage implements OnInit {
   ionViewWillEnter(){
     let companySpecificUrl = "http://127.0.0.1:5000/" + "currentstock/" + this.companyName;
 
+    console.log("Company Specific URL: ", companySpecificUrl);
     this.http.get(companySpecificUrl)
     .subscribe(
       (response) => {
